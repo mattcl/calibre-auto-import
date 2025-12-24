@@ -57,10 +57,6 @@ fn newer_than(marker: &Marker, entry: &DirEntry) -> bool {
         return true;
     }
 
-    if !entry.file_name().to_string_lossy().ends_with(".epub") {
-        return false;
-    }
-
     if let Some(cutoff) = marker.cutoff_time {
         entry
             .metadata()
@@ -72,10 +68,17 @@ fn newer_than(marker: &Marker, entry: &DirEntry) -> bool {
                 )
             })
             .map(|meta| {
-                meta.created()
-                    .map(|created| {
-                        let created_t: DateTime<Utc> = DateTime::from(created);
-                        created_t > cutoff
+                meta.modified()
+                    .inspect_err(|error| {
+                        tracing::warn!(
+                            ?error,
+                            path = entry.path().to_string_lossy().to_string(),
+                            "could not get modified"
+                        )
+                    })
+                    .map(|modified| {
+                        let modified_t: DateTime<Utc> = DateTime::from(modified);
+                        modified_t > cutoff
                     })
                     .unwrap_or_default()
             })
