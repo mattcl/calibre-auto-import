@@ -1,0 +1,14 @@
+[package]
+name = "calibre-auto-import"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5", features = ["cargo", "derive", "env"] }
+chrono = { version = "0.4.28", default-features = false, features = ["clock", "serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+snafu = "0.8"
+tracing = { version = "0.1.41", features = ["attributes"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+walkdir = "2.5.0"

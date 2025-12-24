@@ -1,0 +1,11 @@
+service:
+  name: calibre-auto-import
+  repo:
+    uri: https://github.com/mattcl/calibre-auto-import.git
+  image-repo: mattcl/calibre-auto-import
+  image-repo-api: https://hub.docker.com/v2/repositories/mattcl/calibre-auto-import
+
+gitops:
+  repo:
+    uri: git@github.com:mattcl/hl-calibre-auto-import
+  overlay: installs/default
